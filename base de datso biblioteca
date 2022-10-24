@@ -1,0 +1,88 @@
+create database Biblioteca
+use Biblioteca
+create table Libro(
+Id_libro int primary key not null,
+Titulo varchar(50),
+Editorial varchar(50),
+Area varchar(40))
+select*from Libro
+insert into Libro values(01,'bajo la misma estrella','Nube de Tinta','Romanticismo')
+insert into Libro values(02,'Harry Potter','Salamandra','Fantasia')
+insert into Libro values(03,'Mafarka el Futurista','editorial-doble-j','Novela')
+insert into Libro values(04,'Choco Encuentra una Mama','Norma S A Editorial','Infantil')
+insert into Libro values(05,'DIARIO DE UNA NINFOMANA','DEBOLSILLO','Novela')
+
+create table Autor(
+Id_autor int primary key not null,
+Nombre varchar(40) not null,
+Nacionalidad varchar(40)not null)
+select*from Autor
+insert into Autor values(001,'John Green','estadounidense')
+insert into Autor values(002,'J.K.Rowling','Britanico')
+insert into Autor values(003,'Filippo Tommaso','Egipcio')
+insert into Autor values(004,'Keiko Kasza ','Japones')
+insert into Autor values(005,'Valérie Tasso','Frnces')
+
+create table Lib_Autor(
+Librof int foreign key references Libro(Id_libro),
+Autorf int foreign key references Autor(Id_autor))
+
+insert into Lib_Autor values(01,001)
+insert into Lib_Autor values(02,002)
+insert into Lib_Autor values(03,003)
+insert into Lib_Autor values(04,004)
+insert into Lib_Autor values(05,005)
+select*from Lib_Autor
+
+create table Estudiante(
+Id_lector int primary key not null,
+Documento int not null,
+Nombre varchar(40) not null,
+Direccion varchar(40) not null,
+Carrera varchar(40) not null,
+Edad int not null)
+
+insert into Estudiante values(1011,103345672,'juan diaz','cra20 30-60','Derecho',20)
+insert into Estudiante values(1012,43590213,'Eliana mora','call30 10-20','Medicina',25)
+insert into Estudiante values(1013,98644796,'Alvaro restrepo','cra50 20-30','Enfermeria',19)
+insert into Estudiante values(1014,32302306,'Ruth zapata','call20 30-50','Diseño de modas',23)
+insert into Estudiante values(1015,1020468567,'Jhan muñoz','cra60 69-18','Ingenieria musical',27)
+select*from Estudiante
+
+create table Prestamo(
+Fecha_prestamo date primary key not null,
+Id_lectorf  int foreign key references Estudiante(Id_lector),
+Id_librof int foreign key references Libro(Id_libro),
+Fecha_Devolucion date not null,
+Devuelto varchar(10) not null)
+
+insert into Prestamo values ('2022-10-02',1011,04,'2022-10-30','No')
+insert into Prestamo values ('2022-07-03',1012,01,'2022-07-28','Si')
+insert into Prestamo values ('2022-01-30',1013,05,'2022-02-28','No')
+insert into Prestamo values ('2022-08-10',1014,02,'2022-09-15','Si')
+insert into Prestamo values ('2022-10-24',1015,03,'2022-11-24','No')
+
+select*from Prestamo
+
+--comandos a realizar
+
+--nombre y edad de los estudiantes
+select Nombre,Edad from Estudiante 
+
+--¿Qué estudiantes pertenecen a la carrera de Informática? Listar toda su información (no tengo esa carrera pondre una existente
+select*from Estudiante where Carrera in ('Medicina')
+
+--Listar los nombres de los estudiantes cuyo NOMBRE comience con la letra E (cambie la letra por una existente)
+select*from Estudiante where Nombre like ('E%')
+
+--¿Quiénes son los autores que tengan nacionalidad ‘Britanico’? Listar solamente los nombres
+select Nombre from Autor where Nacionalidad='Britanico'  
+
+--Mostrar todos los libros, menos los que el área sea ‘Novela
+select*from Libro where Area not in ('Novela') 
+
+--Mostrar toda la información de los estudiantes que su edad esté entre los 20 y 30 años
+select*from Estudiante where Edad between 20 and 30 
+
+--De la tabla estudiante necesitamos mostrar todos los registros que en cualquier parte de la identificación tenga el 10
+select*from Estudiante where Documento like ('%10%')
